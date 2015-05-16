@@ -33,10 +33,10 @@
 		// set value of diamond midpoint
 		a[xm][ym] = avg + randomOffset(variance);
 		// set value of square midpoints
-		a[xs][ym] = avg + randomOffset(variance);
-		a[xm][ys] = avg + randomOffset(variance);
-		a[xe][ym] = avg + randomOffset(variance);
-		a[xm][ye] = avg + randomOffset(variance);
+		a[xs][ym] = Math.floor((a[xs][ys] + a[xs][ye])/2);
+		a[xm][ys] = Math.floor((a[xs][ys] + a[xe][ys])/2);
+		a[xe][ym] = Math.floor((a[xe][ys] + a[xe][ye])/2);
+		a[xm][ye] = Math.floor((a[xs][ye] + a[xe][ye])/2);
 		// recurse
 		var v = Math.ceil(variance / 2);
 		ds(a, xs, ys, xm, ym, v);
@@ -62,7 +62,7 @@
 		a[0][height-1] = getRandomInt(0, 255);
 		a[width-1][height-1] = getRandomInt(0, 255);
 		// Diamond-Square
-		ds(a, 0, 0, width-1, height-1, 255);
+		ds(a, 0, 0, width-1, height-1, 127);
 		return a;
 	};
 })();

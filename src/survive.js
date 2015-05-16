@@ -9,7 +9,7 @@
 		.range([height, 0]);
 
 	var color = d3.scale.linear()
-		.domain([10, 115, 135, 155, 175, 205])
+		.domain([0, 115, 135, 155, 175, 205])
 		.range(["#0a0", "#6c0", "#ee0", "#eb4", "#eb9", "#ebf"]);
 
 	var svg = d3.select("body").append("svg")
@@ -17,7 +17,8 @@
 		.attr("height", height)
 		.append("g");
 
-	var heatmap = terrain(128, 128);
+	var size = 513,
+	    heatmap = terrain(size, size);
 
 	var dx = heatmap[0].length,
     dy = heatmap.length;
@@ -42,4 +43,6 @@
 	function transform(point) {
 		return [point[0] * width / dx, point[1] * height / dy];
 	}
+
+	get_heatmap = function() { return heatmap; };
 })();
