@@ -1,6 +1,37 @@
 (function() {
-	// Generates elevation by the Diamond-Square Algorithm
+	var terrain = window.terrain || {};
 
+	terrain.types = {
+		'sea' : {
+			min: 0,
+			color: '#006'
+		},
+		'pool' : {
+			min: 15,
+			color: '#06a'
+		},
+		'beach' : {
+			min: 70,
+			color: '#0a6'
+		},
+		'grass' : {
+			min: 110,
+			color: '#0a0'
+		},
+		'forest' : {
+			min: 180,
+			color: '#290'
+		},
+		'jungle' : {
+			min: 240,
+			color: '#360'
+		}
+	};
+
+	terrain.color_domain = Object.keys(terrain.types).map(function(key) { return terrain.types[key].min; });
+	terrain.color_range = Object.keys(terrain.types).map(function(key) { return terrain.types[key].color; });
+	
+	// Generates elevation by the Diamond-Square Algorithm
 	function getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
@@ -45,15 +76,12 @@
 		ds(a, xm, ym, xe, ye, v);
 	};
 
-	terrain = function(width, height) {
+	terrain.gen = function(width, height) {
 		// Build the array
 		var a = [];
 		for(var x = 0; x < width; ++x) {
-			var col = new Uint8Array(new ArrayBuffer(height));
-			// var col = new Array(height);
-			// for(var y = 0; y < height; ++y) {
-			// 	col[y] = 0;
-			// }
+			//var col = new Uint8Array(new ArrayBuffer(height));
+			var col = new Array(height);
 			a.push(col);
 		}
 		// Set the corners
@@ -65,4 +93,6 @@
 		ds(a, 0, 0, width-1, height-1, 127);
 		return a;
 	};
+
+	window.terrain = terrain;
 })();
