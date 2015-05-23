@@ -16,7 +16,7 @@
 		.attr("width", width)
 		.attr("height", height);
 	
-	var size = 513,
+	var size = 257,
 	heatmap = terrain.gen(size, size);
 
 	var dx = heatmap[0].length,
@@ -34,30 +34,41 @@
 		.style("fill", function(d, i) { return color.range()[i]; });
 
 	var player = {
-		x : 100,
-		y : 100
+		x : Math.floor(size/2),
+		y : Math.floor(size/2)
 	};
-
 	
 	player.symbol = svg.append("circle")
-		.attr('cx', player.x)
-		.attr('cy', player.y)
-		.attr('r', 10)
+		.attr('r', 3)
 		.attr('fill', '#f00');
 
-	player.sety = function() { player.symbol.attr('cy', player.y); return false; };
-	player.setx = function() { player.symbol.attr('cx', player.x); return false; };
+	player.sety = function() {
+		player.y = player.y < 0 ? 0 : player.y;
+		player.y = player.y >= size ? size - 1 : player.y;
+		var y = (player.y + 0.8) / size * height;
+		player.symbol.attr('cy', y);
+	};
+	player.setx = function() {
+		player.x = player.x < 0 ? 0 : player.x;
+		player.x = player.x >= size ? size - 1 : player.x;
+		var x = (player.x + 0.5) / size * width;
+		player.symbol.attr('cx', x);
+	};
+
+	player.sety();
+	player.setx();
 	
-	player.down = function() { player.y += 10; return player.sety(); };
-	player.up = function() { player.y -= 10; return player.sety(); };
-	player.right = function() { player.x += 10; return player.setx(); };
-	player.left = function() { player.x -= 10; return player.setx(); };
+	player.down = function() { player.y += 1; return player.sety(); };
+	player.up = function() { player.y -= 1; return player.sety(); };
+	player.right = function() { player.x += 1; return player.setx(); };
+	player.left = function() { player.x -= 1; return player.setx(); };
 
 	document.body.addEventListener('keydown', function(event) {
 		event = event || window.event;
 		var keyCode = event.keyCode;
 
 		if (isArrowKey(keyCode)) {
+			event.preventDefault();
 			player[getArrowKeyDirection(keyCode)]();
 		}
 	});
