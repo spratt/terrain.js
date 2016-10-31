@@ -1,4 +1,4 @@
-survive.js
+terrain.js
 ==========
 
-A game by Simon David Pratt.
+Implements the Diamond-Square terrain generation algorithm.

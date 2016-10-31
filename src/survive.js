@@ -45,13 +45,13 @@
 	player.sety = function() {
 		player.y = player.y < 0 ? 0 : player.y;
 		player.y = player.y >= size ? size - 1 : player.y;
-		var y = (player.y + 0.8) / size * height;
+		var y = player.y * height / size;
 		player.symbol.attr('cy', y);
 	};
 	player.setx = function() {
 		player.x = player.x < 0 ? 0 : player.x;
 		player.x = player.x >= size ? size - 1 : player.x;
-		var x = (player.x + 0.5) / size * width;
+		var x = (player.x + 0.5) * width / size;
 		player.symbol.attr('cx', x);
 	};
 
@@ -96,4 +96,6 @@
 	function isArrowKey (keyCode) {
 		return !!getArrowKeyDirection(keyCode);
 	}
+
+	get_player = function() { return player; }
 })();
